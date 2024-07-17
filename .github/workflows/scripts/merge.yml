@@ -6,11 +6,11 @@ on:
   name: Build and Deploy
   jobs:
     build:
-      runs-on: resume_submission
+      runs-on: ubuntu-24.04
       timeout-minutes: 20
       steps:
         - name: Checkout
-          uses: actions/checkout@v2
+          uses: actions/checkout@v3
   
         - name: Environment variables setup
           run: |
@@ -21,7 +21,7 @@ on:
             SECRETS: ${{ toJson(secrets) }}
   
         - name: Build
-          run: docker-compose build
+          run: docker compose build
   
         - name: Run
-          run: docker-compose down && docker-compose up -d
+          run: docker compose down && docker-compose up -d

@@ -1,4 +1,4 @@
-name: Test
+name: Tests runs on Github Pull Requests 
 on:
   pull_request:
 env:
