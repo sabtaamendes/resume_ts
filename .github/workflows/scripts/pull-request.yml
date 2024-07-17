@@ -1,19 +1,18 @@
-name: Pull Request on Github
+name: Tests runs on Github Pull Requests
 on: [pull_request]
 jobs:
-  PullRequest-GitHub:
+  PullRequest-Github
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Make a new envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_PORT: 5000
-          envkey_POSTGRES_USER: "postgres"
-          envkey_POSTGRES_PASSWORD: "2020"
-          envkey_POSTGRES_DB: "resume_submission_test"
-          envkey_DATABASE_URL: "postgres://postgres:2020@localhost:5432/resume_submission_test"
-          file_name: .env.test
-      - name: Run tests
-        run: docker compose -f docker-compose-test.yml run node npm run test
+      -name: Checkout respository code
+       uses: actions/checkout@v2
+      -name: Make a new envifile
+       uses: SpicyPizza/create-envfile@1.3
+       with:
+         envkey_PORT: 5000
+         envkey_POSTGRES_USER: "postgres"
+         envkey_PASSWORD: "2020"
+         envkey_POSTGRES_DB: "resume_submission_test"
+         envkey_DATABASE_URL: "postgres://postgres:2020@localhost:5432/resume_submission_test
+       - name: Run tests
+       run: docker compose -f docker-compose-test.yml run node npm run test  
