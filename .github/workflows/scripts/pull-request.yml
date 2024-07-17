@@ -16,4 +16,4 @@ jobs:
           envkey_DATABASE_URL: "postgres://postgres:2020@localhost:5432/resume_submission_test"
           file_name: .env.test
       - name: Run tests
-        run: docker-compose -f docker-compose-test.yml run node npm run test
+        run: docker compose -f docker-compose-test.yml run node npm run test
