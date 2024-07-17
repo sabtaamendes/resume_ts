@@ -1,25 +1,19 @@
 name: Tests runs on Github Pull Requests 
-on:
-  pull_request:
-env:
-  POSTGRES_USERNAME: postgres
-  POSTGRES_PASSWORD: 2020
-  POSTGRES_HOST: localhost
-  POSTGRES_PORT: 5432
-  POSTGRES_DB:  resume_submission_test
-  DATABASE_URL: postgres://postgres:2020@localhost:5432/resume_submission_test
+on: [pull_request]
 jobs:
-  test:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    strategy:
-      matrix:
-        node-version: [16.x]
+  PullRequest-GitHub:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Make a new envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_PORT: 5000
+          envkey_POSTGRES_USER: "postgres"
+          envkey_POSTGRES_PASSWORD: 2020
+          envkey_POSTGRES_DB: "resume_submission_test"
+          envkey_DATABASE_URL: "postgres://postgres:2020@localhost:5432/resume_submission_test"
 
-      - name: Build
-        run: npm run ci:build
-
-      - name: Test
-        run: npm run ci:test
+      - name: Run tests
+        run: docker-compose -f docker-compose-test.yml run node npm run test
