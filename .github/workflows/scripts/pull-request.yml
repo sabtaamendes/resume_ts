@@ -1,21 +1,19 @@
-name: Tests runs on Github Pull Requests
-on: [pull_request]
+name: Tests runs on Github Pull Request
+
+on: pull_request
 
 jobs:
-  PullRequest-GitHub:
+  continuos-integration:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-        
-      - name: Load .env.test
-        run: cp .env.test .env
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Set up Docker Compose
-        uses: docker/compose-action@v2
-
-      - name: Run tests
-        run: docker-compose --env-file .env.test -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from app
+      - uses: actions/checkout@v3
+      - name: Using Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.
+      - name: run install, build and test
+        run: |
+          npm install
+          npm run build 
+          npm run test
