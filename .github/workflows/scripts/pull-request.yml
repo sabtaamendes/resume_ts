@@ -1,34 +1,19 @@
-name: Tests runs on Github Pull Requests
+name: Pull Request on Github
 on: [pull_request]
-
 jobs:
   PullRequest-GitHub:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-        
-      - name: Load .env.test
-        run: cp .env.test .env
-
-      - name: Install Docker CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-
-      - name: Start Docker Service
-        run: sudo service docker start
-
-      - name: Set up Docker Compose
-        run: docker-compose -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from app
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 2020
-          POSTGRES_DB: resume_submission_test
-          DATABASE_URL: postgres://postgres:2020@localhost:5432/resume_submission_test
-          PORT: 5000
+      - name: Make a new envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_PORT: 5000
+          envkey_POSTGRES_USER: "postgres"
+          envkey_POSTGRES_PASSWORD: "2020"
+          envkey_POSTGRES_DB: "resume_submission_test"
+          envkey_DATABASE_URL: "postgres://postgres:2020@localhost:5432/resume_submission_test"
+          file_name: .env.test
+      - name: Run tests
+        run: docker-compose -f docker-compose-test.yml run node npm run test
