@@ -82,7 +82,7 @@ describe("GET /candidate/:id", () => {
     expect(response.body).toBeInstanceOf(Buffer);
   });
 
-  it("should respond with status 404 if there are no candidates", async () => {
+  it("should respond with status 404 if there is no pdf", async () => {
     const response = await server.get("/candidate/1");
     expect(response.status).toBe(httpStatus.NOT_FOUND);
     expect(response.text).toBe("pdf não encontrado");
