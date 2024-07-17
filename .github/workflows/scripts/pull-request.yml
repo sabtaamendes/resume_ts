@@ -1,18 +1,19 @@
-name: Tests runs on Github Pull Requests
-on: [pull_request]
+name: Tests runs on Github Pull Request
+
+on: pull_request
+
 jobs:
-  PullRequest-Github
+  continuos-integration:
     runs-on: ubuntu-latest
+
     steps:
-      -name: Checkout respository code
-       uses: actions/checkout@v2
-      -name: Make a new envifile
-       uses: SpicyPizza/create-envfile@1.3
-       with:
-         envkey_PORT: 5000
-         envkey_POSTGRES_USER: "postgres"
-         envkey_PASSWORD: "2020"
-         envkey_POSTGRES_DB: "resume_submission_test"
-         envkey_DATABASE_URL: "postgres://postgres:2020@localhost:5432/resume_submission_test
-       - name: Run tests
-       run: docker compose -f docker-compose-test.yml run node npm run test  
+      - uses: actions/checkout@v3
+      - name: Using Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.
+      - name: run install, build and test
+        run: |
+          npm install
+          npm run build 
+          npm run test
