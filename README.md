@@ -51,3 +51,9 @@ psql -U postgres -d postgres
 ```
 docker compose -f docker-compose-test.yml up -d
 ```
+
+- pra executar somente os testes no container
+
+```
+docker exec container_name npm test
+```
