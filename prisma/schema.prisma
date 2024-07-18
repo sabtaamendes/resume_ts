@@ -10,8 +10,8 @@ datasource db {
 model candidates {
   id       Int      @id @default(autoincrement())
   fullname String   @db.VarChar(50)
-  email    String   @unique @db.VarChar(50)
-  phone    String   @db.VarChar(50)
+  email    String   @db.VarChar(50)
+  phone    String   @db.VarChar(11)
   resume   resume[]
 }
 

@@ -1,19 +1,27 @@
 version: '6.0'
+
 services:
-  app:
+  test_app:
     build:
       context: .
       dockerfile: Dockerfile.yml  
     container_name: resume_project_test
     ports:
-      - "3000:3000"
+      - "4000:4000"
     volumes:
       - .:/usr/src/app
-    env_file:       
-      - .env.test
+    environment:
+      POSTGRES_PASSWORD: '2020'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'resume_submission_test'
+      POSTGRES_PORT: '5432'
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_test'
     networks:
       - app-network
-    entrypoint: ["sh", "-c", "npx prisma generate && npm start"]
+    depends_on:
+      - db
+    entrypoint: ["sh", "-c", "npx prisma migrate deploy && npx prisma migrate dev --preview-feature && npx prisma db seed && npm run build && npm start"]
 
   db:
     image: postgres
@@ -21,11 +29,16 @@ services:
     restart: always
     tty: true
     ports:
-      - "5433:5433" 
+      - "5433:5432" 
     volumes:
-      - postgres_data:/var/lib/postgresql/data  
-    env_file:
-      - .env.test
+      - postgres_data:/var/lib/postgresql/data 
+    environment:
+      POSTGRES_PASSWORD: '2020'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'resume_submission_test'
+      POSTGRES_PORT: '5432' 
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_test'
     networks:
       - app-network
 

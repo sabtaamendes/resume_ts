@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.yml  
     container_name: resume_project
     ports:
-      - "3000:3000"
+      - "4000:4000"
     volumes:
       - .:/usr/src/app
     environment:
@@ -20,7 +20,7 @@ services:
       - app-network
     depends_on:
       - db
-    entrypoint: ["sh", "-c", "npx prisma migrate deploy && npx prisma migrate dev --preview-feature && npx prisma db seed && npm start"]
+    entrypoint: ["sh", "-c", "npx prisma migrate deploy && npx prisma migrate dev --preview-feature && npx prisma db seed && npm run build && npm start"]
 
   db:
     image: postgres
@@ -34,9 +34,10 @@ services:
     environment:
       POSTGRES_PASSWORD: '2020'
       POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'resume_submission_test'
+      POSTGRES_DB: 'resume_submission'
       POSTGRES_PORT: '5432' 
       POSTGRES_HOST_AUTH_METHOD: 'trust'
+      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission'
     networks:
       - app-network
 

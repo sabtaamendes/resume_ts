@@ -45,3 +45,8 @@ docker exec -it postgres /bin/bash
 
 ```psql -U postgres -d postgres
 ```
+- comando pra executar o compose de teste
+
+```
+docker compose -f docker-compose-test.yml up -d
+```
