@@ -14,8 +14,9 @@ services:
       POSTGRES_PASSWORD: '2020'
       POSTGRES_USER: 'postgres'
       POSTGRES_DB: 'resume_submission'
-      POSTGRES_PORT: '5433'
+      POSTGRES_PORT: '5432'
       POSTGRES_HOST_AUTH_METHOD: 'trust'
+      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission'
     networks:
       - app-network
     depends_on:

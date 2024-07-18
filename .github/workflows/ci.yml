@@ -13,7 +13,7 @@ jobs:
       postgres:
         image: postgres
         ports:
-          - 5432:5432
+          - 5433:5433
         env:
           POSTGRES_PASSWORD: '2020'
           POSTGRES_USER: 'postgres'
