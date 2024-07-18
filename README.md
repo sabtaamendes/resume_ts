@@ -43,7 +43,8 @@ docker exec -it postgres /bin/bash
 
 - comando para acessar o banco de dados no container
 
-```psql -U postgres -d postgres
+```
+psql -U postgres -d postgres
 ```
 - comando pra executar o compose de teste
 
