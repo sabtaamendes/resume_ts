@@ -47,7 +47,7 @@ docker exec -it postgres /bin/bash
 - comando para acessar o banco de dados no container
 
 ```
-psql -U postgres -d postgres
+docker exec -it id_container_db psql -U username -d banco_dados
 ```
 
 - comando pra executar o compose de teste
