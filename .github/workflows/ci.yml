@@ -62,6 +62,4 @@ jobs:
         done
 
     - name: Run Tests
-      run: docker exec resume_project_test npm test
-      env:
-        NODE_ENV: 'test'
+      run: docker exec resume_project_test npm run test
