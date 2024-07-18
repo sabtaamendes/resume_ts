@@ -22,6 +22,8 @@ POSTGRES_USER=
 POSTGRES_PASSWORD=
 POSTGRES_DB=
 POSTGRES_HOSTNAME=
+DATABASE_URL=
+PORT=
 ```
 
 - comando docker para executar a aplicação local
@@ -50,4 +52,10 @@ psql -U postgres -d postgres
 
 ```
 docker compose -f docker-compose-test.yml up -d
+```
+
+- pra executar somente os testes no container
+
+```
+docker exec container_name npm test
 ```
