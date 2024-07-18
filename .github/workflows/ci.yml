@@ -52,7 +52,7 @@ jobs:
         tags: resume_project:latest
 
     - name: Run Docker Compose
-      run: docker-compose -f docker-compose.yml up --build -d
+      run: docker compose -f docker-compose.yml up -d
 
     - name: Wait for PostgreSQL to be ready
       run: |
