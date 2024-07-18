@@ -1,25 +1,71 @@
-name: Continuous Integration
+name: Run Tests
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  continuous-integration:
+  test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5433:5432
+        env:
+          POSTGRES_PASSWORD: '2020'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_DB: 'resume_submission_test'
+          POSTGRES_HOST_AUTH_METHOD: 'trust'
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v3
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
-      
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Build the project
-        run: npm run build
-      
-      - name: Run tests
-        run: npm run test
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: Dockerfile.yml
+        push: false
+        tags: resume_project:latest
+
+    - name: Run Docker Compose
+      run: docker-compose -f docker-compose.yml up --build -d
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        echo "Waiting for PostgreSQL..."
+        while ! docker exec postgres pg_isready -U postgres; do
+          sleep 1
+        done
+
+    - name: Run Tests
+      run: docker exec resume_project npm test
