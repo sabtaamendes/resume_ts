@@ -22,6 +22,8 @@ POSTGRES_USER=
 POSTGRES_PASSWORD=
 POSTGRES_DB=
 POSTGRES_HOSTNAME=
+DATABASE_URL=
+PORT=
 ```
 
 - comando docker para executar a aplicação local

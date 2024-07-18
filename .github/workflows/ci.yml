@@ -13,11 +13,11 @@ jobs:
       postgres:
         image: postgres
         ports:
-          - 5433:5432
+          - 5432:5432
         env:
           POSTGRES_PASSWORD: '2020'
           POSTGRES_USER: 'postgres'
-          POSTGRES_DB: 'resume_submission_test'
+          POSTGRES_DB: 'resume_submission'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
         options: >-
           --health-cmd "pg_isready -U postgres"
