@@ -13,7 +13,7 @@
     "dev:seed": "npm run dev:load-envs -- ts-node prisma/seed.ts",
     "migration:run": "prisma migrate deploy",
     "debug": "nodemon --inspect ./dist/server.js",
-    "test": "jest --passWithNoTests --runInBand --detectOpenHandles",
+    "test": "NODE_ENV=test jest --passWithNoTests --runInBand --detectOpenHandles",
     "test:coverage": "NODE_ENV=test jest --passWithNoTests --runInBand --coverage --collectCoverageFrom='./src/**'",
     "test:migration:run": "npm run test:load-envs prisma migrate deploy",
     "test:migration:generate": "npm run test:load-envs prisma migrate dev",
