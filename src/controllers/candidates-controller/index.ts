@@ -1,18 +1,21 @@
 import { Request, Response } from "express";
-import httpStatus from "http-status";
 import fs from "fs";
+import httpStatus from "http-status";
+
 import repositoryCandidates from "../../respositories/candidates-repository";
+import servicesCandidates from "../../services/candidates-services";
 
 export async function getCandidates(req: Request, res: Response) {
   try {
-    const result = await repositoryCandidates.getAllCandidates();
-    if (result.length === 0) {
-      return res.status(404).send("Nenhum usuário encontrado");
-    }
-
-    return res.send(result);
+    const result = await servicesCandidates.getCandidates();
+    return res.status(httpStatus.OK).send(result);
   } catch (error) {
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    switch (error.name) {
+      case "NotFoundError":
+        return res.status(httpStatus.NOT_FOUND).send(error.message);
+      default:
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    }
   }
 }
 
@@ -20,13 +23,7 @@ export async function getPdfByIdCandidate(req: Request, res: Response) {
   const userId = req.params.id as unknown as number;
 
   try {
-    const result = await repositoryCandidates.getPdfByIdCandidate(
-      Number(userId)
-    );
-
-    if (!result) {
-      return res.status(404).send("pdf não encontrado");
-    }
+    const result = await servicesCandidates.getPdfByIdCandidate(Number(userId));
 
     const pdfBUffer = Buffer.from(result.resume[0].pdf);
     const toString = pdfBUffer.toString("base64");
@@ -39,7 +36,12 @@ export async function getPdfByIdCandidate(req: Request, res: Response) {
 
     return res.send(pdfBUffer);
   } catch (error) {
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    switch (error.name) {
+      case "NotFoundError":
+        return res.status(httpStatus.NOT_FOUND).send(error.message);
+      default:
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    }
   }
 }
 
@@ -78,13 +80,12 @@ export async function postJobsCandidates(req: Request, res: Response) {
     phone: string;
     desired_position: string;
   };
-  const file = req.file;
 
   try {
-    if (!file) {
-      res.status(400).send("Arquivo não enviado");
-      return;
-    }
+    if (!req.file)
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send("Arquivo pdf não enviado.");
 
     const { originalname, path } = req.file;
     const pdf = fs.readFileSync(path);
@@ -100,6 +101,11 @@ export async function postJobsCandidates(req: Request, res: Response) {
 
     return res.status(201).send("Usuário e arquivo PDF salvos com sucesso.");
   } catch (error) {
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    switch (error.name) {
+      case "invalidDataError":
+        return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(error.message);
+      default:
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    }
   }
 }

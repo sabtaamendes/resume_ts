@@ -64,3 +64,10 @@ docker exec container_name npm test
 
 
 `porta do banco de dados docker-compose.yml e docker-compose-test.yml `5433` e porta do banco de dados no ci.yml `5432` `
+
+
+- executar somente os testes unitários
+
+```
+npm run test ./tests/unit/candidates.test.ts
+```
