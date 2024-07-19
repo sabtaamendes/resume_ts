@@ -37,6 +37,7 @@ docker compose up -d
 ```
 docker ps -a
 ```
+
 - comando docker para acessar o container
 
 ```
@@ -46,8 +47,9 @@ docker exec -it postgres /bin/bash
 - comando para acessar o banco de dados no container
 
 ```
-psql -U postgres -d postgres
+docker exec -it id_container_db psql -U username -d banco_dados
 ```
+
 - comando pra executar o compose de teste
 
 ```
@@ -59,3 +61,6 @@ docker compose -f docker-compose-test.yml up -d
 ```
 docker exec container_name npm test
 ```
+
+
+`porta do banco de dados docker-compose.yml e docker-compose-test.yml `5433` e porta do banco de dados no ci.yml `5432` `
