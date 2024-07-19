@@ -1,47 +1,58 @@
-import httpStatus from "http-status";
-import repositoryCandidates from "@/respositories/candidates-repository";
-import { getCandidates } from "@/controllers/candidates-controller";
-import express from "express";
-jest.mock("../../src/respositories/candidates-repository");
+import { notFoundError } from "@/errors";
+import servicesCandidates from "@/services/candidates-services";
 
-jest.mock("../../src/controllers/candidates-controller");
+jest.mock("@/services/candidates-services");
 
-describe("Candidates", () => {
+
+describe("Candidates service", () => {
   afterEach(() => {
-    jest.restoreAllMocks();
+    jest.resetAllMocks();
   });
 
   describe("getCandidates", () => {
-    const req = {} as express.Request;
-    const res = {} as express.Response;
+    it("should respond with empty array when there is no candidates", async () => {
+      jest.spyOn(servicesCandidates, "getCandidates").mockResolvedValue([]);
 
-    it("should respond with not found error if there is no candidates", async () => {
-      jest
-        .spyOn(repositoryCandidates, "getAllCandidates")
-        .mockResolvedValueOnce([]);
-
-      return expect(Promise.resolve(getCandidates(req, res))).resolves.toBe(
-        undefined
-      );
+      await expect(servicesCandidates.getCandidates()).resolves.toEqual([]);
     });
 
+    describe("getPdfByIdCandidate", () => {
+      const mockUserId = 1;
 
-    // it("should return an array of candidates", async () => {
-    //     jest.spyOn(repositoryCandidates, "getAllCandidates").getMockImplementation( );
+      it("should throw status 404 when there is no pdf who belongs to the id", async () => {
+        jest
+          .spyOn(servicesCandidates, "getPdfByIdCandidate")
+          .mockResolvedValue(null);
 
-    //     await expect(getCandidates(req, res)).resolves.toEqual([
-    //       expect.objectContaining({
-    //         id: expect.any(Number),
-    //         fullname: expect.any(String),
-    //         email: expect.any(String),
-    //         phone: expect.any(String),
-    //       }),
-    //     ]);
-    // });
+        const result = await servicesCandidates.getPdfByIdCandidate(mockUserId);
 
+        expect(result).toBeNull();
+      });
 
+      const candidateInfo = {
+        id: mockUserId,
+        fullname: "John Doe",
+        email: "johndoe@example.com",
+        phone: "123-456-7890",
+        resume: [
+          {
+            id: 1,
+            desired_position: "Software Engineer",
+            filename: "resume.pdf",
+            pdf: Buffer.from("mock pdf content"),
+            candidates_id: mockUserId,
+          },
+        ],
+      };
 
+      it("should return the PDF when found", async () => {
+        jest.spyOn(servicesCandidates, "getPdfByIdCandidate").mockResolvedValue(candidateInfo);
+
+        const result = await servicesCandidates.getPdfByIdCandidate(mockUserId);
+        expect(result).toBe(candidateInfo);
+        expect(servicesCandidates.getPdfByIdCandidate).toHaveBeenCalledWith(mockUserId);
+      });
+
+    });
   });
-
-
 });

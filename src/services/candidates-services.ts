@@ -3,7 +3,6 @@ import repositoryCandidates from "../respositories/candidates-repository";
 
 async function getCandidates() {
   const result = await repositoryCandidates.getAllCandidates();
-  if (!result) throw notFoundError();
 
   return result;
 }

@@ -54,9 +54,10 @@ describe("GET /candidates", () => {
     );
   });
 
-  it("should respond with status 404 if there are no candidates", async () => {
+  it("should respond with an empty array when there is no candidates", async () => {
     const response = await server.get("/candidates");
     expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toEqual([]);
   });
 });
 
