@@ -10,12 +10,7 @@ export async function getCandidates(req: Request, res: Response) {
     const result = await servicesCandidates.getCandidates();
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
-    switch (error.name) {
-      case "NotFoundError":
-        return res.status(httpStatus.NOT_FOUND).send(error.message);
-      default:
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
-    }
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
   }
 }
 
