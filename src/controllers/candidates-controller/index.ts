@@ -82,10 +82,7 @@ export async function postJobsCandidates(req: Request, res: Response) {
   };
 
   try {
-    if (!req.file)
-      return res
-        .status(httpStatus.BAD_REQUEST)
-        .send("Arquivo pdf não enviado.");
+    if (!req.file) return res.status(httpStatus.BAD_REQUEST).send("Arquivo pdf não enviado.");
 
     const { originalname, path } = req.file;
     const pdf = fs.readFileSync(path);
