@@ -1,5 +1,5 @@
+import fs from "node:fs";
 import { Request, Response } from "express";
-import fs from "fs";
 import httpStatus from "http-status";
 
 import repositoryCandidates from "../../respositories/candidates-repository";
@@ -21,7 +21,7 @@ export async function getPdfByIdCandidate(req: Request, res: Response) {
     const result = await servicesCandidates.getPdfByIdCandidate(Number(userId));
 
     const pdfBUffer = Buffer.from(result.resume[0].pdf);
-    const toString = pdfBUffer.toString("base64");
+    const string = pdfBUffer.toString("base64");
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
@@ -77,7 +77,10 @@ export async function postJobsCandidates(req: Request, res: Response) {
   };
 
   try {
-    if (!req.file) return res.status(httpStatus.BAD_REQUEST).send("Arquivo pdf não enviado.");
+    if (!req.file)
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send("Arquivo pdf não enviado.");
 
     const { originalname, path } = req.file;
     const pdf = fs.readFileSync(path);
