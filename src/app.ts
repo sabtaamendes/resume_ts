@@ -10,6 +10,8 @@ loadEnv();
 
 import { handleApplicationErrors } from "./middlewares/handle-application-error";
 import { candidatesRouter } from "./routers/candidates-router";
+import { authenticationRouter } from "./routers/authentication-router";
+import { usersRouter } from "./routers/users-router";
 
 const app = express();
 
@@ -17,7 +19,9 @@ app
 	.use(cors())
 	.use(express.json())
 	.get("/health", (_req, res) => res.send("OK!"))
+	.use("/", authenticationRouter)
 	.use("/", candidatesRouter)
+	.use("/", usersRouter)
 	.use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
