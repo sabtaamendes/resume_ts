@@ -8,11 +8,12 @@ datasource db {
 }
 
 model candidates {
-  id       Int      @id @default(autoincrement())
-  fullname String   @db.VarChar(50)
-  email    String   @db.VarChar(50)
-  phone    String   @db.VarChar(11)
-  resume   resume[]
+  id         Int      @id @default(autoincrement())
+  fullname   String   @db.VarChar(50)
+  email      String   @db.VarChar(50)
+  phone      String   @db.VarChar(11)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  resume     resume[]
 }
 
 model resume {
@@ -22,4 +23,22 @@ model resume {
   pdf              Bytes
   candidates_id    Int
   candidates       candidates @relation(fields: [candidates_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model session {
+  id         Int      @id @default(autoincrement())
+  token      String?
+  users_id   Int
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  users      users    @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  username   String    @db.VarChar(50)
+  email      String    @unique @db.VarChar(50)
+  password   String    @db.VarChar(255)
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  session    session[]
 }
