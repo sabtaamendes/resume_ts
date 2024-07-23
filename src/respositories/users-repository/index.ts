@@ -9,6 +9,7 @@ async function findByEmail(email: string, select?: Prisma.usersSelect) {
   };
 
   if (select) {
+    console.log(select, 'SELECT')
     params.select = select;
   }
 
@@ -24,7 +25,7 @@ async function create(data: {
     data,
   });
 
-  console.log(result, 'RESULT');
+  delete result.password;
   return result;
 }
 
