@@ -1,4 +1,3 @@
-import { notFoundError } from "@/errors";
 import servicesCandidates from "@/services/candidates-services";
 
 jest.mock("@/services/candidates-services");
@@ -20,9 +19,7 @@ describe("Candidates service", () => {
       const mockUserId = 1;
 
       it("should throw status 404 when there is no pdf who belongs to the id", async () => {
-        jest
-          .spyOn(servicesCandidates, "getPdfByIdCandidate")
-          .mockResolvedValue(null);
+        jest.spyOn(servicesCandidates, "getPdfByIdCandidate").mockResolvedValue(null);
 
         const result = await servicesCandidates.getPdfByIdCandidate(mockUserId);
 

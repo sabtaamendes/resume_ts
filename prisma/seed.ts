@@ -7,12 +7,12 @@ async function main() {
   if (!event) {
     event = await prisma.candidates.create({
       data: {
-        fullname: "Teste de evento",
-        email: "testedeevento@gmail.com",
+        fullname: "Harry Potter",
+        email: "harrypotter@gmail.com",
         phone: "92992586600",
         resume: {
           create: {
-            desired_position: "Developer Fullstack",
+            desired_position: "Apanhador de Quadribol",
             filename: "resume.pdf",
             pdf: Buffer.from("teste"),
           },
