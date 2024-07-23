@@ -13,7 +13,7 @@ async function signIn(params: { email: string; password: string }) {
   await validatePasswordOrFail(password, user.password);
 
   const token = await createSession(user.id);
-
+ 
   return {
     user: exclude(user, "password"),
     token,
