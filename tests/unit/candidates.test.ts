@@ -31,7 +31,6 @@ describe("Candidates service", () => {
         fullname: "John Doe",
         email: "johndoe@example.com",
         phone: "123-456-7890",
-        created_at: new Date(),
         resume: [
           {
             id: 1,
