@@ -105,3 +105,8 @@ npm run test ./tests/unit/candidates.test.ts
 ```
 
 > porta do banco de dados docker-compose.yml e docker-compose-test.yml **5433** e porta do banco de dados no ci.yml **5432**
+
+- Se eu quiser construir somente a imagem docker
+```
+docker build -t resume-project -f Dockerfile.yml .
+```

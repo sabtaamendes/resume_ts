@@ -3,7 +3,6 @@ import app, { init } from "../../src/app";
 import { faker } from "@faker-js/faker";
 import { cleanDb } from "../helpers";
 import httpStatus from "http-status";
-import { createUser } from "@/services/users-service";
 
 beforeAll(async () => {
   await init();
