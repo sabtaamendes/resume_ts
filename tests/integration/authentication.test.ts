@@ -36,6 +36,7 @@ describe("POST /sign-in", () => {
           user: {
             id: expect.any(Number),
             username: expect.any(String),
+            email: expect.any(String),
           },
           token: expect.any(String),
         })
