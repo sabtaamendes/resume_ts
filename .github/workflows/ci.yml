@@ -3,7 +3,7 @@ name: Run Tests
 on:
   pull_request:
     branches:
-      - developer
+      - main
 
 jobs:
   test:
@@ -24,7 +24,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -39,7 +38,6 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
-
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
 
@@ -60,7 +58,6 @@ jobs:
         while ! docker exec postgres pg_isready -U postgres; do
           sleep 1
         done
-
     - name: Run Tests
       run: docker exec resume_project_test npm run test
       env:
