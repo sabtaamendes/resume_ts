@@ -1,19 +1,24 @@
 import { prisma } from "../../configs/database";
 import { Prisma } from "@prisma/client";
 
-async function findByEmail(email: string, select?: Prisma.usersSelect) {
-  const params: Prisma.usersFindUniqueArgs = {
+async function findByEmail(email: string) {
+  // const params: Prisma.usersFindUniqueArgs = {
+  //   where: {
+  //     email,
+  //   },
+  // };
+
+  // if (select) {
+  //   params.select = select;
+  // }
+
+  // return await prisma.users.findUnique(params);
+
+  return await prisma.users.findUnique({
     where: {
       email,
     },
-  };
-
-  if (select) {
-    console.log(select, 'SELECT')
-    params.select = select;
-  }
-
-  return await prisma.users.findUnique(params);
+  });
 }
 
 async function create(data: {
