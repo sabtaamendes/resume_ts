@@ -17,7 +17,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: '2020'
           POSTGRES_USER: 'postgres'
-          POSTGRES_DB: 'resume_submission_test'
+          POSTGRES_DB: 'resume_dev'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
         options: >-
           --health-cmd "pg_isready -U postgres"
