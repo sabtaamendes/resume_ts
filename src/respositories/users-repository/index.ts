@@ -2,7 +2,6 @@ import { prisma } from "../../configs/database";
 
 async function findByEmail(email: string) {
   const users = await prisma.users.findUnique({ where: { email } });
-  console.log('CONSOLE QUE APARECERÁ NO TESTE', users, 'AQUI TERMINA O CONSOLE')
   return users
 }
 
