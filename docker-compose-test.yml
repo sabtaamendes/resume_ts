@@ -1,4 +1,4 @@
-version: '6.0'
+version: '8.0'
 
 services:
   test_app:
@@ -35,7 +35,7 @@ services:
     environment:
       POSTGRES_PASSWORD: '2020'
       POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'resume_submission_test'
+      POSTGRES_DB: 'resume_dev'
       POSTGRES_PORT: '5432' 
       POSTGRES_HOST_AUTH_METHOD: 'trust'
       DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_dev'
