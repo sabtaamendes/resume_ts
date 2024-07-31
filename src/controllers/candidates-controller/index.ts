@@ -34,6 +34,8 @@ export async function getPdfByIdCandidate(req: Request, res: Response) {
 		switch (error.name) {
 			case "NotFoundError":
 				return res.status(httpStatus.NOT_FOUND).send(error.message);
+			case "InvalidDataError":
+				return res.status(httpStatus.BAD_REQUEST).send(error.message);
 			default:
 				return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
 		}
