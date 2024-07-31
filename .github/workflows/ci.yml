@@ -11,35 +11,46 @@ jobs:
 
     services:
       db:
-        image: postgres
+        image: postgres:latest
         ports:
           - 5432:5432
         env:
           POSTGRES_PASSWORD: '2020'
           POSTGRES_USER: 'postgres'
-          POSTGRES_DB: 'resume_submission_test'
+          POSTGRES_DB: 'resume_dev'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
         options: >-
           --health-cmd "pg_isready -U postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Cache Docker layers
-      uses: actions/cache@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
       with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Generate Prisma Client
+      run: npx prisma generate
+
+    - name: Apply Prisma Migrations
+      run: npx prisma migrate deploy
+      env:
+        DATABASE_URL: postgres://postgres:2020@localhost:5432/resume_dev
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        echo "Waiting for PostgreSQL..."
+        while ! pg_isready -h localhost -p 5432 -U postgres; do
+          sleep 1
+        done
 
     - name: Build Docker image
       uses: docker/build-push-action@v4
@@ -52,13 +63,8 @@ jobs:
     - name: Run Docker Compose
       run: docker compose -f docker-compose-test.yml up -d
 
-    - name: Wait for PostgreSQL to be ready
-      run: |
-        echo "Waiting for PostgreSQL..."
-        while ! docker exec postgres pg_isready -U postgres; do
-          sleep 1
-        done
     - name: Run Tests
       run: docker exec resume_project_test npm run test
       env:
         NODE_ENV: test
+        DATABASE_URL: postgres://postgres:2020@db:5432/resume_dev
