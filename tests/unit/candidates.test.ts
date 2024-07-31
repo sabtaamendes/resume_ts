@@ -31,7 +31,6 @@ describe("Candidates service", () => {
         fullname: "John Doe",
         email: "johndoe@example.com",
         phone: "123-456-7890",
-        created_at: new Date(),
         resume: [
           {
             id: 1,
@@ -41,6 +40,7 @@ describe("Candidates service", () => {
             candidates_id: mockUserId,
           },
         ],
+        created_at: new Date(),
       };
 
       it("should return the PDF when found", async () => {
