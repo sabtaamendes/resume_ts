@@ -39,7 +39,7 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
-            
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
 
@@ -47,7 +47,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: Dockerfile
+        file: Dockerfile.yml
         push: false
         tags: resume_project_test:latest
 
