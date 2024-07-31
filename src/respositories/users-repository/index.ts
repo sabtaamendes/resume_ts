@@ -1,8 +1,7 @@
 import { prisma } from "../../configs/database";
 
 async function findByEmail(email: string) {
-  const users = await prisma.users.findUnique({ where: { email } });
-  return users
+  return prisma.users.findUnique({ where: { email } });
 }
 
 async function create(data: {
