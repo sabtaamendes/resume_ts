@@ -19,6 +19,7 @@ async function create(data: {
   });
 
   delete result.password;
+  delete result.created_at;
   return result;
 }
 
