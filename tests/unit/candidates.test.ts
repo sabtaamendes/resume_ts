@@ -40,6 +40,7 @@ describe("Candidates service", () => {
             candidates_id: mockUserId,
           },
         ],
+        created_at: new Date(),
       };
 
       it("should return the PDF when found", async () => {
