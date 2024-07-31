@@ -15,7 +15,7 @@ async function signIn(params: { email: string; password: string }) {
   const token = await createSession(user.id);
  
   return {
-    user: exclude(user, "password"),
+    user: exclude(user, "created_at", "password"),
     token,
   };
 }
