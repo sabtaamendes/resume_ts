@@ -10,7 +10,6 @@ async function main() {
         fullname: "Harry Potter",
         email: "harrypotter@gmail.com",
         phone: "92992586600",
-        created_at: new Date(),
         resume: {
           create: {
             desired_position: "Apanhador de Quadribol",
