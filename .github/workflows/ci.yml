@@ -46,7 +46,7 @@ jobs:
         context: .
         file: Dockerfile.yml
         push: false
-        tags: resume_project_test:latest
+        tags: appresumetest:latest
 
     - name: Run Docker Compose
       run: docker compose -f docker-compose-test.yml up -d
