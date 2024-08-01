@@ -1,11 +1,9 @@
-version: '6.0'
-
 services:
   test_app:
     build:
       context: .
       dockerfile: Dockerfile.yml  
-    container_name: resume_project_test
+    container_name: appresumetest
     ports:
       - "4000:4000"
     volumes:

@@ -58,6 +58,6 @@ jobs:
           sleep 1
         done
     - name: Run Tests
-      run: docker exec resume_project_test npm run test
+      run: docker exec appresumetest npm run test
       env:
         NODE_ENV: test
