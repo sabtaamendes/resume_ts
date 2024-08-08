@@ -2,26 +2,34 @@ services:
   test_app:
     build:
       context: .
-      dockerfile: Dockerfile.yml  
-    container_name: appresumetest
+      dockerfile: Dockerfile 
+    container_name: test_app
     ports:
-      - "4000:4000"
+      - ${PORT:-4000}:4000
     volumes:
       - .:/usr/src/app
     environment:
-      POSTGRES_PASSWORD: '2020'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'resume_submission_test'
-      POSTGRES_PORT: '5432'
-      POSTGRES_HOST_AUTH_METHOD: 'trust'
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_HOST: ${POSTGRES_HOST}
       DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_test'
     networks:
       - app-network
     depends_on:
       - db
-    entrypoint: ["sh", "-c", "npx prisma generate && npx prisma migrate dev && npx prisma migrate deploy && npx prisma db seed && npm run build && npm start"]
+    entrypoint: [
+      "sh", "-c", "
+      npx prisma generate && 
+      npx prisma migrate dev && 
+      npx prisma db seed && 
+      npm run build && 
+      npm start"
+    ]
+ 
   db:
-    image: postgres
+    image: postgres:latest
     container_name: postgres
     restart: always
     tty: true
@@ -30,12 +38,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data 
     environment:
-      POSTGRES_PASSWORD: '2020'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'resume_submission_test'
-      POSTGRES_PORT: '5432' 
-      POSTGRES_HOST_AUTH_METHOD: 'trust'
-      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_test'
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      # POSTGRES_PORT: ${POSTGRES_PORT} 
+      # DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_test'
     networks:
       - app-network
 

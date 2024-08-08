@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.yml  
+      dockerfile: Dockerfile  
     container_name: appresume
     ports:
       - "4000:4000"
