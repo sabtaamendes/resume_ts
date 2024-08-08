@@ -46,7 +46,7 @@ jobs:
         context: .
         file: Dockerfile.yml
         push: false
-        tags: resume_project_test:latest
+        tags: test_app:latest
 
     - name: Run Docker Compose
       run: docker compose -f docker-compose-test.yml up -d
@@ -58,6 +58,6 @@ jobs:
           sleep 1
         done
     - name: Run Tests
-      run: docker exec resume_project_test npm run test
+      run: docker exec test_app npm run test test/unit
       env:
         NODE_ENV: test

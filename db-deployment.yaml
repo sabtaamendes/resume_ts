@@ -17,11 +17,21 @@ spec:
           image: postgres:latest
           env:
             - name: POSTGRES_PASSWORD
-              value: your_password_here
-          name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: db_password
+              value: '2020'
+            - name: POSTGRES_USER
+              value: 'postgres'
+            - name: POSTGRES_DB
+              value: 'resume_submission_development'
+            - name: POSTGRES_HOST
+              value: 'db-service'
+            - name: POSTGRES_PORT
+              value: '5432'
           ports:
             - containerPort: 5432
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

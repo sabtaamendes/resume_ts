@@ -1,11 +1,9 @@
-version: '6.0'
-
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.yml  
-    container_name: resume_project
+      dockerfile: Dockerfile  
+    container_name: appresume
     ports:
       - "4000:4000"
     volumes:
@@ -13,15 +11,15 @@ services:
     environment:
       POSTGRES_PASSWORD: '2020'
       POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'resume_submission_production'
+      POSTGRES_DB: 'resume_submission_development'
       POSTGRES_PORT: '5432'
       POSTGRES_HOST_AUTH_METHOD: 'trust'
-      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_production'
+      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_development'
     networks:
       - app-network
     depends_on:
       - db
-    entrypoint: ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npx prisma migrate dev --preview-feature && npx prisma db seed && npm run build && npm start"]
+    entrypoint: ["sh", "-c", "npx prisma generate && npx prisma migrate dev && npx prisma migrate deploy && npx prisma db seed && npm run build && npm start"]
   db:
     image: postgres
     container_name: postgres
@@ -34,10 +32,10 @@ services:
     environment:
       POSTGRES_PASSWORD: '2020'
       POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'resume_submission_production'
+      POSTGRES_DB: 'resume_submission_development'
       POSTGRES_PORT: '5432' 
       POSTGRES_HOST_AUTH_METHOD: 'trust'
-      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_production'
+      DATABASE_URL: 'postgres://postgres:2020@db:5432/resume_submission_development'
     networks:
       - app-network
 

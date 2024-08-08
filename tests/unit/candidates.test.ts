@@ -2,7 +2,6 @@ import servicesCandidates from "@/services/candidates-services";
 
 jest.mock("@/services/candidates-services");
 
-
 describe("Candidates service", () => {
   afterEach(() => {
     jest.resetAllMocks();
@@ -44,13 +43,16 @@ describe("Candidates service", () => {
       };
 
       it("should return the PDF when found", async () => {
-        jest.spyOn(servicesCandidates, "getPdfByIdCandidate").mockResolvedValue(candidateInfo);
+        jest
+          .spyOn(servicesCandidates, "getPdfByIdCandidate")
+          .mockResolvedValue(candidateInfo);
 
         const result = await servicesCandidates.getPdfByIdCandidate(mockUserId);
         expect(result).toBe(candidateInfo);
-        expect(servicesCandidates.getPdfByIdCandidate).toHaveBeenCalledWith(mockUserId);
+        expect(servicesCandidates.getPdfByIdCandidate).toHaveBeenCalledWith(
+          mockUserId
+        );
       });
-
     });
   });
 });

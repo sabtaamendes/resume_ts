@@ -20,7 +20,6 @@ spec:
         env:
         - name: ENV
           value: "development"
-          value: 
         - name: DB_HOST
           value: "db-service"
         - name: DB_NAME
@@ -42,3 +41,22 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+
+services:
+  - name: db-service
+    image: postgres
+    ports:
+      - 5432:5432
+    env:
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: db-secret
+            key: db_password
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
