@@ -110,3 +110,9 @@ npm run test ./tests/unit/candidates.test.ts
 ```
 docker build -t resume-project -f Dockerfile.yml .
 ```
+
+- para gerar um token jwt
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
+```
