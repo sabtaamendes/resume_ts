@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -25,6 +26,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -39,6 +41,7 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
 
@@ -56,9 +59,10 @@ jobs:
     - name: Wait for PostgreSQL to be ready
       run: |
         echo "Waiting for PostgreSQL..."
-        while ! docker exec postgres pg_isready -U postgres; do
+        while ! docker exec db pg_isready -U postgres; do
           sleep 1
         done
+
     - name: Run Tests
       run: docker exec test_app npm run test test/unit
       env:
