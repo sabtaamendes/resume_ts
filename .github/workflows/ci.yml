@@ -4,25 +4,28 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     services:
       db:
-        image: postgres
+        image: postgres:latest
         ports:
           - 5432:5432
         env:
           POSTGRES_PASSWORD: '2020'
           POSTGRES_USER: 'postgres'
           POSTGRES_DB: 'resume_submission_test'
-          POSTGRES_HOST_AUTH_METHOD: 'trust'
+          POSTGRES_PORT: '5432'
+          POSTGRES_HOST: 'localhost'
         options: >-
           --health-cmd "pg_isready -U postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -37,6 +40,7 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
 
@@ -44,7 +48,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: Dockerfile.yml
+        file: Dockerfile
         push: false
         tags: test_app:latest
 
@@ -54,9 +58,10 @@ jobs:
     - name: Wait for PostgreSQL to be ready
       run: |
         echo "Waiting for PostgreSQL..."
-        while ! docker exec postgres pg_isready -U postgres; do
+        while ! docker exec db pg_isready -U postgres; do
           sleep 1
         done
+
     - name: Run Tests
       run: docker exec test_app npm run test test/unit
       env:
