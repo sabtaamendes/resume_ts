@@ -1,5 +1,4 @@
 import supertest from "supertest";
-import jwt from "jsonwebtoken";
 import app, { init } from "../../src/app";
 import { faker } from "@faker-js/faker";
 import { cleanDb } from "../helpers";
