@@ -29,18 +29,6 @@ services:
       npm run build && 
       npm start"
     ]
-    # o npx prisma migrate deploy é o comando usado somente em produção
-    # entrypoint são os comandos que serão executados no container no momento da inicialização
-  
-  # entrypoint em produção
-  entrypoint: [
-    "sh", "-c", "
-    npx prisma generate &&
-    npx prisma migrate deploy &&
-    npm run build &&
-    npm start"
-  ]
-
 
   db:
     image: postgres:latest
