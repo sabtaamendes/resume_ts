@@ -1,11 +1,11 @@
 services:
   test_app:
     build:
-      context: .  # o build será feito no diretorio atual
+      context: .  
       dockerfile: Dockerfile
     container_name: test_app
     ports:
-      - ${PORT:-4000}:4000 # tudo o que for depois do ":-" é caso o env estiver vazio, o valor será o 4000
+      - ${PORT:-4000}:4000 
     volumes:
       - .:/usr/src/app
     restart: unless-stopped
