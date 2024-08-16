@@ -108,7 +108,7 @@ npm run test ./tests/unit/candidates.test.ts
 
 - Se eu quiser construir somente a imagem docker
 ```
-docker build -t resume-project -f Dockerfile.yml .
+docker build -t resume-project -f Dockerfile .
 ```
 
 - para gerar um token jwt
