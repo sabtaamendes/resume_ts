@@ -9,8 +9,8 @@ import { loadEnv } from "./configs/envs";
 loadEnv();
 
 import { handleApplicationErrors } from "./middlewares/handle-application-error";
-import { candidatesRouter } from "./routers/candidates-router";
 import { authenticationRouter } from "./routers/authentication-router";
+import { candidatesRouter } from "./routers/candidates-router";
 import { usersRouter } from "./routers/users-router";
 
 const app = express();

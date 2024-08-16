@@ -8,6 +8,7 @@ import {
 	postJobsCandidates,
 } from "../controllers/candidates-controller";
 
+import { authenticateToken } from "../middlewares/authentication-middleware";
 import { validateBody } from "../middlewares/validation-middleware";
 import { candidatesSchema } from "../schemas/authentication-schema";
 
@@ -29,8 +30,8 @@ const upload = multer({ storage: storage });
 
 const candidatesRouter = Router();
 candidatesRouter
-	.get("/candidates", getCandidates)
-	.get("/candidate/:id", getPdfByIdCandidate)
+	.get("/candidates", authenticateToken, getCandidates)
+	.get("/candidate/:id", authenticateToken, getPdfByIdCandidate)
 	.get("/pagination", getPagination)
 	.post(
 		"/upload",

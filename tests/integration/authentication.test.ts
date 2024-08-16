@@ -4,11 +4,17 @@ import { faker } from "@faker-js/faker";
 import { cleanDb } from "../helpers";
 import httpStatus from "http-status";
 import { createUser } from "@/services/users-service";
+import { redisClient } from "../../src/configs/redisConfig";
 
 beforeAll(async () => {
   await init();
   await cleanDb();
 });
+
+afterAll(async () => {
+  await redisClient.disconnect();
+});
+
 
 const server = supertest(app);
 

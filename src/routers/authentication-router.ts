@@ -1,7 +1,7 @@
+import { Router } from "express";
 import { singInPost } from "../controllers/authentication-controller";
 import { validateBody } from "../middlewares/validation-middleware";
 import { signInSchema } from "../schemas/authentication-schema";
-import { Router } from "express";
 
 const authenticationRouter = Router();
 

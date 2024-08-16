@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { faker } from "@faker-js/faker";
-import { prisma } from "../configs/database";
+import { prisma } from "../../src/configs/database";
 
 export async function createUser(params: {
   username?: string;
